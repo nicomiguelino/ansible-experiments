@@ -1,0 +1,15 @@
+- hosts: localhost
+  tasks:
+    - name: Print a message
+      debug:
+        msg: Hello from main.yaml!
+    - name: Uncomment dtoverlay=vc4-kms-v3d
+      ansible.builtin.replace:
+        dest: ./config.txt
+        regexp: '^#\s*(dtoverlay=vc4-kms-v3d)'
+        replace: '\1'
+    - name: Remove FKMS config for all devices
+      ansible.builtin.lineinfile:
+        dest: ./config.txt
+        state: absent
+        regexp: "^dtoverlay=vc4-fkms-v3d$"
